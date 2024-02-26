@@ -39,7 +39,8 @@ public class MainPanel extends JPanel {
 	JButton changeCurrentBookIndex;
 	String colourMode;
 	JScrollPane scrollPane;
-	JButton settingsButton;;
+	JButton settingsButton;
+	JButton searchBooksButton;
 
 	private static MainPanel instance = null;
 
@@ -103,14 +104,9 @@ public class MainPanel extends JPanel {
 		JPanel panel_1 = new JPanel();
 		scrollPane.setRowHeaderView(panel_1);
 
-		JButton btnNewButton = new JButton("Previous book");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-			}
-		});
 
-		JButton searchBooksButton = new JButton("Search books");
+		searchBooksButton = new JButton("Search books");
 		loadByIDButton = new JButton("Load with ID");
 		settingsButton = new JButton("Settings");
 
@@ -121,7 +117,6 @@ public class MainPanel extends JPanel {
 			}
 		});
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
-		panel_1.add(btnNewButton);
 		panel_1.add(searchBooksButton);
 		panel_1.add(loadByIDButton);
 		panel_1.add(settingsButton);
@@ -315,10 +310,25 @@ public class MainPanel extends JPanel {
 				setEditorPane(codeString);
 			}
 		});
+		
+		searchBooksButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String title = JOptionPane.showInputDialog(frame, "Enter the title of the book", "");
+				if (title.isBlank()) {
+					JOptionPane.showMessageDialog(frame, "Invalid input of nothing.", "Invalid Value",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				int pagesInteger = HtmlManipulator.getPages(title);
+
+			}
+		});
 	}
 
 	private void setHtmlText() {
-		if (htmlString.isEmpty()) {
+		if (htmlString == null || htmlString.isEmpty()) {
 			editorPane.setText(htmlString);
 			editorPane.setCaretPosition(0);
 			return;
@@ -344,6 +354,7 @@ public class MainPanel extends JPanel {
 		preferences = Preferences.userRoot().node(this.getClass().getName());
 		colourMode = preferences.get("colour_mode", "LIGHT");
 		pickedChapter = preferences.getInt("chapter_num", 0);
+
 		return preferences.get("book_code", "");
 
 	}

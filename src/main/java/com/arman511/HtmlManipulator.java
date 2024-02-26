@@ -41,5 +41,10 @@ public class HtmlManipulator {
 		Elements contentElements = document.getElementsByClass("chapter-content");
 		return contentElements.outerHtml();
 	}
+
+	public static int getPages(String title) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 
