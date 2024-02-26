@@ -11,7 +11,7 @@ import com.arman511.extra.Chapter;
 import com.arman511.extra.Fiction;
 
 public class HtmlManipulator {
-	public static Fiction getChapters(String id) throws Exception {
+	public static Fiction getFiction(String id) throws Exception {
 		ArrayList<Chapter> chaptersArrayList = new ArrayList<Chapter>();
 		Document doc;
 		try {
@@ -28,8 +28,7 @@ public class HtmlManipulator {
 
 		}
 		String titleString = doc.select("h1").first().text();
-		String codeString = doc.select("input").attr("name", "id").first().attr("value");
-		return new Fiction(titleString, codeString, chaptersArrayList);
+		return new Fiction(titleString, id, chaptersArrayList);
 	}
 
 	public static String getChapterContent(Chapter chapter) throws Exception {
