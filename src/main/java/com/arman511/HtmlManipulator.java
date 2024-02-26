@@ -33,14 +33,13 @@ public class HtmlManipulator {
 	}
 
 	public static String getChapterContent(Chapter chapter) throws Exception {
-		// TODO Auto-generated method stub
 		Document document;
 		try {
-			document = Jsoup.connect("https://www.royalroad.com/" + chapter.getUrlString()).get();
+			document = Jsoup.connect("https://www.royalroad.com" + chapter.getUrlString()).get();
 		} catch (Exception e) {
 			throw new Exception("IDK");
 		}
-		Element contentElements = document.select("div").attr("class", "chapter-content").first();
+		Elements contentElements = document.getElementsByClass("chapter-content");
 		return contentElements.outerHtml();
 	}
 }
