@@ -315,13 +315,12 @@ public class MainPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String title = JOptionPane.showInputDialog(frame, "Enter the title of the book", "");
-				if (title.isBlank()) {
-					JOptionPane.showMessageDialog(frame, "Invalid input of nothing.", "Invalid Value",
-							JOptionPane.ERROR_MESSAGE);
-					return;
+				try {
+					SearchPanel.createAndShowGUI();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(frame, "Something went wrong", "IDK", JOptionPane.ERROR_MESSAGE);
+
 				}
-				int pagesInteger = HtmlManipulator.getPages(title);
 
 			}
 		});
