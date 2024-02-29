@@ -27,13 +27,13 @@ import com.arman511.extra.Fiction;
 public class MainPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	Preferences preferences;
+	Preferences preferences = Preferences.userRoot().node(this.getClass().getName());;
 	JFrame topLevelFrame;
 	JEditorPane editorPane;
 	JButton loadByIDButton;
-	Fiction bookFiction = null;
-	String htmlString;
-	int pickedChapter = 0;
+	static Fiction bookFiction = null;
+	static String htmlString;
+	static int pickedChapter = 0;
 	JButton nextChapterButton;
 	JButton previousChapterButton;
 	JButton changeCurrentBookIndex;
@@ -41,6 +41,7 @@ public class MainPanel extends JPanel {
 	JScrollPane scrollPane;
 	JButton settingsButton;
 	JButton searchBooksButton;
+	boolean searching = false;
 
 	private static MainPanel instance = null;
 
@@ -144,7 +145,8 @@ public class MainPanel extends JPanel {
 
 		styleSheet.addRule("h1 {color: " + BLUE_COLOR + ";}");
 		styleSheet.addRule("h2 {color: " + RED_COLOR + ";}");
-		styleSheet.addRule("table {background-color: " + TABLE_BACKGROUND + "; border-collapse: collapse;}");
+		styleSheet
+				.addRule("table {background-color: " + TABLE_BACKGROUND + "; border-collapse: collapse; color: white}");
 		styleSheet.addRule("tr, td, th {border: 1px solid " + TABLE_CELL_BORDER + ";}");
 
 		Document doc = kit.createDefaultDocument();
@@ -189,15 +191,18 @@ public class MainPanel extends JPanel {
 				}
 
 				String titleString = (String) JOptionPane.showInputDialog(frame,
-						"Pick the starting chapter from the book " + bookFiction.getTitleString(),
-						"Starting chapter", JOptionPane.QUESTION_MESSAGE, null, titleArrayList.toArray(),
-						titleArrayList.toArray()[0]);
-				for (int i = 0; i < bookFiction.getChapters().size(); i++) {
-					if (bookFiction.getChapters().get(i).getTitleString().equals(titleString)) {
+						"Pick the starting chapter from the book " + bookFiction.getTitleString(), "Starting chapter",
+						JOptionPane.QUESTION_MESSAGE, null, titleArrayList.toArray(), titleArrayList.toArray()[0]);
+
+				int i = 0;
+				for (Chapter chapter : bookFiction.getChapters()) {
+					if (chapter.getTitleString().equals(titleString)) {
 						pickedChapter = i;
 						break;
 					}
+					i++;
 				}
+
 				try {
 					htmlString = HtmlManipulator.getChapterContent(bookFiction.getChapters().get(pickedChapter));
 				} catch (Exception e2) {
@@ -326,7 +331,7 @@ public class MainPanel extends JPanel {
 		});
 	}
 
-	private void setHtmlText() {
+	public void setHtmlText() {
 		if (htmlString == null || htmlString.isEmpty()) {
 			editorPane.setText(htmlString);
 			editorPane.setCaretPosition(0);
@@ -349,8 +354,13 @@ public class MainPanel extends JPanel {
 		setPreferences();
 	}
 
+	public static void setHtmlFromSearch() {
+		MainPanel panel = MainPanel.getInstance(null);
+		panel.setHtmlText();
+	}
+
 	public String getPreferences() {
-		preferences = Preferences.userRoot().node(this.getClass().getName());
+
 		colourMode = preferences.get("colour_mode", "LIGHT");
 		pickedChapter = preferences.getInt("chapter_num", 0);
 
