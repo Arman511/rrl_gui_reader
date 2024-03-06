@@ -11,7 +11,6 @@ public class Fiction {
 		this.setChapters(gChapters);
 		this.setCodeString(code);
 		this.setTitleString(title);
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getTitleString() {

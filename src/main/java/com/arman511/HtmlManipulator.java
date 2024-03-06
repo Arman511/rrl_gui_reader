@@ -1,5 +1,7 @@
 package com.arman511;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,11 +46,6 @@ public class HtmlManipulator {
 		return contentElements.outerHtml();
 	}
 
-	public static int getPages(String title) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	public static int getSearchResultPagesCount(String urlSegement) throws Exception {
 		Document doc;
 		try {
@@ -66,9 +63,6 @@ public class HtmlManipulator {
 		} catch (Exception e) {
 			page = 1;
 		}
-
-
-		// TODO Auto-generated method stub
 		return page;
 	}
 
@@ -91,7 +85,7 @@ public class HtmlManipulator {
 			if (imgSrc.equals("/dist/img/nocover-new-min.png")) {
 				imgSrc = "https://www.royalroad.com/dist/img/nocover-new-min.png";
 			}
-			
+			URL p = URL.of(new URI(imgSrc), null);
 			String stars = "Stars: " + node.getElementsByClass("star").first().attr("title") + "/5";
 
 			List<String> statsElements = node.getElementsByClass("col-sm-6").select("span").eachText();
@@ -99,7 +93,8 @@ public class HtmlManipulator {
 			statsElements.add(stars);
 
 			Element descriptionElement = node.getElementById("description-" + codeString);
-			String temp = "<div class='item'> <img src='" + imgSrc + "'></img><h1 id='title'>" + item + ": "
+			String temp = "<div class='item'><img src='" + p
+					+ "'></img><h1 id='title'>" + item + ": "
 					+ titleString + "</h1><h2>"
 					+ String.join(", ", statsElements)
 					+ "</h2><h3>"

@@ -123,14 +123,14 @@ public class SearchPanel extends JPanel {
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<String> urlSegmentStrings = new ArrayList<String>();
-				if (!titleField.getText().isBlank()) {
+				if (!titleField.getText().trim().equals("")) {
 					urlSegmentStrings.add("title=" + titleField.getText().trim());
 				}
 
-				if (!authorField.getText().isBlank()) {
+				if (!authorField.getText().trim().equals("")) {
 					urlSegmentStrings.add("author=" + authorField.getText().trim());
 				}
-				if (!keywordField.getText().isBlank()) {
+				if (!keywordField.getText().trim().equals("")) {
 					urlSegmentStrings.add("keyword=" + keywordField.getText().trim());
 
 				}
@@ -140,7 +140,6 @@ public class SearchPanel extends JPanel {
 				try {
 					pages = HtmlManipulator.getSearchResultPagesCount(urlSegement);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(topLevelFrame, "Something went wrong", "IDK",
 							JOptionPane.ERROR_MESSAGE);
 					return;
@@ -156,7 +155,6 @@ public class SearchPanel extends JPanel {
 							new SearchTerms(titleField.getText(), authorField.getText(), keywordField.getText()),
 							pages);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(topLevelFrame, "Something went wrong", "IDK",
 							JOptionPane.ERROR_MESSAGE);
 					return;

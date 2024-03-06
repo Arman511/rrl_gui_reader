@@ -43,13 +43,13 @@ public class SearchTerms {
 
 	public String getUrlFragment() {
 		ArrayList<String> termStrings = new ArrayList<String>();
-		if(!titleString.isBlank()) {
+		if(!titleString.trim().equals("")) {
 			termStrings.add("title=" + titleString);
 		}
-		if(!authorString.isBlank()) {
+		if(!authorString.trim().equals("")) {
 			termStrings.add("author=" + authorString);
 			}
-		if (!keywordString.isBlank()) {
+		if (!keywordString.trim().equals("")) {
 			termStrings.add("keywords=" + keywordString);
 		}
 		return String.join("&", termStrings);
@@ -57,13 +57,13 @@ public class SearchTerms {
 
 	public String searchTitle() {
 		ArrayList<String> termStrings = new ArrayList<String>();
-		if (!titleString.isBlank()) {
+		if (!titleString.trim().equals("")) {
 			termStrings.add("Title: " + titleString);
 		}
-		if (!authorString.isBlank()) {
+		if (!authorString.trim().equals("")) {
 			termStrings.add("Author: " + authorString);
 		}
-		if (!keywordString.isBlank()) {
+		if (!keywordString.trim().equals("")) {
 			termStrings.add("Keywords: " + keywordString);
 		}
 		return String.join(", ", termStrings);

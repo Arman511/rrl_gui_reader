@@ -9,7 +9,6 @@ public class Chapter {
 		this.setTitleString(gtitleString);
 		this.setUrlString(gurlString);
 		this.setOrder(gorder);
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getTitleString() {

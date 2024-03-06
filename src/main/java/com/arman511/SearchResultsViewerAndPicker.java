@@ -28,6 +28,7 @@ import com.arman511.extra.Chapter;
 import com.arman511.extra.Fiction;
 import com.arman511.extra.SearchTerms;
 
+
 public class SearchResultsViewerAndPicker extends JPanel {
 	int page = 1;
 	private static final long serialVersionUID = 1L;
@@ -39,6 +40,7 @@ public class SearchResultsViewerAndPicker extends JPanel {
 	JScrollPane scrollPane;
 	List<String> codes;
 	List<String> titleStrings;
+	
 	static SearchTerms terms;
 
 	public static SearchResultsViewerAndPicker getInstance(JFrame frame) {
@@ -104,6 +106,11 @@ public class SearchResultsViewerAndPicker extends JPanel {
 
 
 		JButton Back = new JButton("Back");
+		Back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				topLevelFrame.dispatchEvent(new WindowEvent(topLevelFrame, WindowEvent.WINDOW_CLOSING));
+			}
+		});
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 
 		JButton selectBook = new JButton("Select Book");
@@ -176,9 +183,10 @@ public class SearchResultsViewerAndPicker extends JPanel {
 		try {
 			htmlString = HtmlManipulator.getSearchResult(terms, page);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(topLevelFrame, "No results", "No results", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
+		htmlString = "<html><body>"+htmlString+"</body></html>";
 		org.jsoup.nodes.Document document = Jsoup.parse(htmlString);
 		codes = document.getElementsByTag("h4").attr("id", "code").eachText();
 		titleStrings = document.getElementsByTag("h1").attr("id", "title").eachText();
@@ -220,6 +228,7 @@ public class SearchResultsViewerAndPicker extends JPanel {
 		}
 		editorPane.setText(htmlString);
 		editorPane.setCaretPosition(0);
+
 	}
 	/**
 	 * Create the panel.
